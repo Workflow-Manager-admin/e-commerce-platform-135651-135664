@@ -1,0 +1,30 @@
+.form {
+  background: #fff;
+  border-radius: 9px;
+  padding: 2rem 2.2rem 1.4rem 2.2rem;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 10px 0 rgba(30,136,229,0.09);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form label {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.form .input {
+  margin-top: 2px;
+  margin-bottom: 7px;
+}
+
+.form .btn-accent, .form .btn-secondary {
+  margin-top: 14px;
+}
+
+@media (max-width:600px){
+  .form {
+    padding: 0.7rem;
+  }
+}

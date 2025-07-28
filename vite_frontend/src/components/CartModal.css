@@ -1,0 +1,19 @@
+.cart-modal {
+  display: none; /* Would be handled by state, here as visible for context */
+  position: fixed;
+  right: 16px;
+  top: 64px;
+  min-width: 340px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px 0 rgba(30,136,229,0.25);
+  padding: 1rem 1.3rem 1.2rem 1.3rem;
+  z-index: 99;
+}
+
+@media (max-width: 600px) {
+  .cart-modal {
+    right: 2px;
+    min-width: 92vw;
+  }
+}

@@ -1,0 +1,19 @@
+.wishlist-modal {
+  display: none; /* Toggle via state/context */
+  position: fixed;
+  right: 375px;
+  top: 64px;
+  min-width: 300px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px 0 rgba(255,193,7,0.21);
+  padding: 1.1rem 1.1rem 1.3rem 1.1rem;
+  z-index: 99;
+}
+
+@media (max-width: 900px) {
+  .wishlist-modal {
+    right: 2px;
+    min-width: 88vw;
+  }
+}
