@@ -1,39 +1,78 @@
 import React from "react";
 import "./ProductGrid.css";
 import ProductCard from "./ProductCard";
+import { useProductFilter } from "./ProductFilterContext";
 
-// Dummy data for demonstration
-const demoProducts = [
-  {
-    id: 1,
-    name: "Blue T-Shirt",
-    price: 29.99,
-    image: "https://via.placeholder.com/200x200.png?text=T-shirt",
-    category: "tshirt",
-  },
-  {
-    id: 2,
-    name: "Running Shoes",
-    price: 89.99,
-    image: "https://via.placeholder.com/200x200.png?text=Shoes",
-    category: "shoes",
-  },
-  {
-    id: 3,
-    name: "Stylish Cap",
-    price: 19.5,
-    image: "https://via.placeholder.com/200x200.png?text=Cap",
-    category: "accessories",
-  },
-];
+/**
+ * Utility for filter logic.
+ */
+function applyProductFilters(
+  products: {
+    id: number | string;
+    name: string;
+    price: number;
+    image: string;
+    category: string;
+  }[],
+  filter: {
+    search: string;
+    category: string;
+    priceMin: string;
+    priceMax: string;
+  }
+) {
+  return products.filter((prod) => {
+    // Search text (case insensitive substring on name or category)
+    const text = filter.search.trim().toLowerCase();
+    if (text.length > 0) {
+      if (
+        !prod.name.toLowerCase().includes(text) &&
+        !prod.category.toLowerCase().includes(text)
+      ) {
+        return false;
+      }
+    }
+    // Category
+    if (filter.category && filter.category !== "all" && prod.category !== filter.category) {
+      return false;
+    }
+    // Price min
+    if (
+      filter.priceMin !== "" &&
+      !isNaN(Number(filter.priceMin)) &&
+      prod.price < Number(filter.priceMin)
+    ) {
+      return false;
+    }
+    // Price max
+    if (
+      filter.priceMax !== "" &&
+      !isNaN(Number(filter.priceMax)) &&
+      prod.price > Number(filter.priceMax)
+    ) {
+      return false;
+    }
+    return true;
+  });
+}
 
+// PUBLIC_INTERFACE
+/**
+ * ProductGrid displays the list of filtered products
+ */
 const ProductGrid: React.FC = () => {
-  // Would fetch products from API and pass as prop or via context
+  const { products, filter } = useProductFilter();
+  const filtered = applyProductFilters(products, filter);
+
   return (
     <div className="product-grid">
-      {demoProducts.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+      {filtered.length > 0 ? (
+        filtered.map((product) => <ProductCard key={product.id} product={product} />)
+      ) : (
+        <div style={{ gridColumn: "1/-1", textAlign: "center", color: "#888", padding: "2rem" }}>
+          No products found matching the selected criteria.
+        </div>
+      )}
     </div>
   );
 };
